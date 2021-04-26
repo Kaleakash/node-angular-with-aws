@@ -1,10 +1,10 @@
 @angular/common
 MIT
 
-@angular/common
+@angular/core
 MIT
 
-@angular/core
+@angular/forms
 MIT
 
 @angular/platform-browser

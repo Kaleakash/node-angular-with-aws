@@ -1,18 +1,47 @@
-let express = require("express")
-let app = express();
-let cors = require("cors")
-app.use(cors());
-app.use(express.static(process.cwd()));
+//Load all required modules 
+let app = require("express")();
+let bodyParser = require("body-parser");
+let mongoose = require("mongoose");
+let cors = require("cors");
 
-app.get("/hello",(req,res)=> {
-	res.send("Welcome")
-})
 
-app.get('/', (req,res) => {
- res.sendFile(__dirname+"/index.html")
-});
-app.get("/userInfo",(req,res)=> {
-res.json({"id":100,"name":"Ravi"})
-})
+//Database URL Details 
+let url = "mongodb://localhost:27017/meanstack";
 
-app.listen(9090,()=>console.log("runnin on servrer on 9090"))
+//middleware enable data from post method.
+app.use(bodyParser.urlencoded({extended:true}));    // enable body part data  
+app.use(bodyParser.json());                         // json data. 
+app.use(cors());           // enable cors policy 
+
+//Database connection without warning 
+const mongooseDbOption ={       // to avoid warning 
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}
+mongoose.connect(url,mongooseDbOption);   //ready to connect 
+
+//Connect the data 
+mongoose.connection
+
+//link to router module like a import concept. 
+var Product = require("./router/product.router.js");
+
+//URL 
+
+
+//Middleware 
+
+// http://localhost:9090/product/allProductDetails   Get App Product Details 
+// http://localhost:9090/product/retrieveProductById/102   Get App Product Details by Id  
+// http://localhost:9090/product/storeProductDetails    rest client or post man {"pid":103,"pname":"Computer","price":43000}
+// http://localhost:9090/product/deleteProductById/101
+// http://localhost:9090/product/updateProductPrice  update price using pid {"pid":103,"price":48000}
+
+app.use("/product",Product)
+//app.use("/order",Order)
+//app.use("/customer",Customer)
+
+
+
+app.listen(9090,()=>console.log("Server running on port number 9090"));
+
