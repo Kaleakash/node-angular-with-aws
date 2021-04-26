@@ -9,7 +9,7 @@ let cors = require("cors");
 app.use(express.static(process.cwd()));
 
 //Database URL Details 
-let url = "mongodb://127.0.0.1:46740/meanstack";
+let url = "mongodb://localhost:27017/meanstack";
 
 //load the frontend file ie angular program 
 
